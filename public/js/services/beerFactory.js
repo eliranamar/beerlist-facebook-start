@@ -19,8 +19,6 @@ app.factory('beerFactory', function ($http) {
     return $http.get('/beers/' + id)
       .then(function (response) {
         return response.data
-      }, function (err) {
-        console.error(err)
       });
   };
 
@@ -36,8 +34,6 @@ app.factory('beerFactory', function ($http) {
     return $http.post('/beers', newBeer)
       .then(function (response) {
         return response.data
-      }, function (err) {
-        console.error(err)
       });
   };
 
@@ -52,8 +48,6 @@ app.factory('beerFactory', function ($http) {
     return $http.post('/beers/' + id + '/reviews', newReview)
       .then(function (response) {
         return response.data
-      }, function (err) {
-        console.error(err)
       });
   };
 
@@ -61,9 +55,6 @@ app.factory('beerFactory', function ($http) {
     return $http.delete('/beers/' + beerId + '/reviews/' + reviewId)
       .then(function (response) {
         return response.data
-      })
-      .catch(function (err) {
-        alert(err.data.message)
       });
   };
 

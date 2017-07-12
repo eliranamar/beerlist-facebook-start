@@ -5,6 +5,9 @@ app.controller('beerController', function ($scope, beerFactory, $stateParams) {
       .then(function (beer) {
         $scope.beer = beer;
       })
+      .catch(function (err) {
+        alert(err.data.message)
+      })
   } else {
     $scope.beer = $stateParams.beerParam;
   }
@@ -14,7 +17,7 @@ app.controller('beerController', function ($scope, beerFactory, $stateParams) {
       .then(function (beer) {
         $scope.beer = beer;
       })
-      .catch(function(err) {
+      .catch(function (err) {
         alert(err.data.message)
       })
   }
