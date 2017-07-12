@@ -25,6 +25,9 @@ app.controller('mainController', function ($scope, beerFactory) {
   beerFactory.getBeers()
     .then(function (beers) {
       $scope.beers = beers;
+    })
+    .catch(function (err) {
+      alert(err.data.message)
     });
 
 
@@ -52,6 +55,9 @@ app.controller('mainController', function ($scope, beerFactory) {
       .then(function () {
         //finally, success or error, we need to clear the tempBeer so the view updates
         self.tempBeer = null;
+      })
+      .catch(function (err) {
+        alert(err.data.message)
       });
   };
 

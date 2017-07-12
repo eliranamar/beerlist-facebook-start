@@ -1,6 +1,19 @@
 var app = angular.module('beerList', ['ui.router']);
 
-app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
+app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
+
+  $httpProvider.interceptors.push(function ($q, $window) {
+    return {
+      responseError: function (error) {
+        if (error.data.message == "jwt expired") {
+          $window.location.href = "/auth/facebook"
+          return error
+        } else {
+          return $q.reject(error)
+        }
+      }
+    };
+  })
 
   $locationProvider.html5Mode(true);
   $stateProvider

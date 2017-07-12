@@ -2,8 +2,8 @@
 <p>{{beer.style}} </p>
 <p>{{beer.abv}}% ABV</p>
 <ul>
-    <li ng-repeat="review in beer.reviews">
-        {{review.text}} by {{review.name}} <a ng-click="deleteReview()">Delete Review</a>
+    <li  ng-repeat="review in beer.reviews">
+        {{review.text}} by {{review.name}} <a ng-show="currentUser" ng-click="deleteReview()">Delete Review</a>
     </li>
 </ul>
 <form>
