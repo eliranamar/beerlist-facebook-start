@@ -22,8 +22,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/beers', beerRoutes);
 app.use('/auth', authRoutes);
 
-app.all('*', function(req, res) {
-  res.sendFile(__dirname + "/public/index.html")
+app.all('[^.]+', function(req, res) {
+  res.sendFile(__dirname + "/public/index.html");
 });
 
 // main error handler

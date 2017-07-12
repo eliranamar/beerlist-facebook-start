@@ -4,17 +4,19 @@ var passport = require('../models/passport');
 
 // requesting email details
 router.get('/facebook', passport.authenticate('facebook', {
-  scope: 'email'
+  scope: ['email']
 }));
 
 //call back from facebook 
 router.get('/facebook/callback',
   passport.authenticate('facebook', {
-    failureRedirect: '/'
+    session: false,
+    failureRedirect: "/"
   }),
   function (req, res) {
-    // Successful authentication, redirect home.
-    res.redirect('/');
-  });
+    console.log(req.user);
+    res.redirect('/authorization?token=' + req.user.token + "&name=" + req.user.name);
+  }
+);
 
 module.exports = router;

@@ -1,16 +1,20 @@
 var express = require('express');
+var expressJWT = require('express-jwt');
+var ensureAuthenticated = expressJWT({
+  secret: 'Elirans$uperC0mpl3xKey1337'
+});
 var router = express.Router();
 var Beer = require("../models/BeerModel");
 
 
-var ensureAuthenticated = function(req, res, next) {
-  //this function needs to work
-  //in the meantime we'll just call next
-  next();
-}
+// var ensureAuthenticated = function(req, res, next) {
+//   //this function needs to work
+//   //in the meantime we'll just call next
+//   next();
+// }
 
-router.get('/', function(req, res, next) {
-  Beer.find(function(error, beers) {
+router.get('/', function (req, res, next) {
+  Beer.find(function (error, beers) {
     if (error) {
       console.error(error)
       return next(error);
@@ -20,8 +24,8 @@ router.get('/', function(req, res, next) {
   });
 });
 
-router.get('/:id', function(req, res, next) {
-  Beer.findById(req.params.id, function(error, beer) {
+router.get('/:id', function (req, res, next) {
+  Beer.findById(req.params.id, function (error, beer) {
     if (error) {
       console.error(error)
       return next(error);
@@ -31,8 +35,12 @@ router.get('/:id', function(req, res, next) {
   });
 });
 
-router.put('/:id', ensureAuthenticated, function(req, res, next) {
-  Beer.findByIdAndUpdate(req.params.id, req.body, { new: true }, function(error, beer) {
+
+
+router.put('/:id', ensureAuthenticated, function (req, res, next) {
+  Beer.findByIdAndUpdate(req.params.id, req.body, {
+    new: true
+  }, function (error, beer) {
     if (error) {
       console.error(error)
       return next(error);
@@ -42,8 +50,8 @@ router.put('/:id', ensureAuthenticated, function(req, res, next) {
   });
 });
 
-router.delete('/:id', ensureAuthenticated, function(req, res, next) {
-  Beer.findByIdAndRemove(req.params.id, function(err, foundBeer) {
+router.delete('/:id', ensureAuthenticated, function (req, res, next) {
+  Beer.findByIdAndRemove(req.params.id, function (err, foundBeer) {
     if (err) {
       console.error(err)
       return next(err);
@@ -53,8 +61,8 @@ router.delete('/:id', ensureAuthenticated, function(req, res, next) {
   });
 });
 
-router.post('/:id/reviews', ensureAuthenticated, function(req, res, next) {
-  Beer.findById(req.params.id, function(err, foundBeer) {
+router.post('/:id/reviews', ensureAuthenticated, function (req, res, next) {
+  Beer.findById(req.params.id, function (err, foundBeer) {
     if (err) {
       console.error(err);
       return next(err);
@@ -62,7 +70,7 @@ router.post('/:id/reviews', ensureAuthenticated, function(req, res, next) {
       return res.send("Error! No beer found with that ID");
     } else {
       foundBeer.reviews.push(req.body)
-      foundBeer.save(function(err, updatedBeer) {
+      foundBeer.save(function (err, updatedBeer) {
         if (err) {
           return next(err);
         } else {
@@ -73,8 +81,8 @@ router.post('/:id/reviews', ensureAuthenticated, function(req, res, next) {
   });
 });
 
-router.delete('/:beerid/reviews/:reviewid', ensureAuthenticated, function(req, res, next) {
-  Beer.findById(req.params.beerid, function(err, foundBeer) {
+router.delete('/:beerid/reviews/:reviewid', ensureAuthenticated, function (req, res, next) {
+  Beer.findById(req.params.beerid, function (err, foundBeer) {
     if (err) {
       return next(err);
     } else if (!foundBeer) {
@@ -83,7 +91,7 @@ router.delete('/:beerid/reviews/:reviewid', ensureAuthenticated, function(req, r
       var reviewToDelete = foundBeer.reviews.id(req.params.reviewid)
       if (reviewToDelete) {
         reviewToDelete.remove()
-        foundBeer.save(function(err, updatedBeer) {
+        foundBeer.save(function (err, updatedBeer) {
           if (err) {
             return next(err);
           } else {
@@ -98,8 +106,8 @@ router.delete('/:beerid/reviews/:reviewid', ensureAuthenticated, function(req, r
 });
 
 
-router.post('/', ensureAuthenticated, function(req, res, next) {
-  Beer.create(req.body, function(err, beer) {
+router.post('/', ensureAuthenticated, function (req, res, next) {
+  Beer.create(req.body, function (err, beer) {
     if (err) {
       console.error(err)
       return next(err);

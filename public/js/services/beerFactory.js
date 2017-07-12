@@ -1,70 +1,69 @@
-app.factory('beerFactory', function($http) {
+app.factory('beerFactory', function ($http) {
 
   var beerFactory = {};
 
-  beerFactory.getBeers = function() {
+  beerFactory.getBeers = function () {
     return $http.get('/beers')
-      .then(function(response) {
+      .then(function (response) {
         //if wanted/needed you can do data manipulation and parsing here
 
         //our returned data is wrapped in a pre-resolved promise
         //we can access that data in our controller using '.then' 
         return response.data
-      }, function(err) {
+      }, function (err) {
         //console.error(err)
       });
   };
 
-  beerFactory.getBeer = function(id) {
+  beerFactory.getBeer = function (id) {
     return $http.get('/beers/' + id)
-      .then(function(response) {
+      .then(function (response) {
         return response.data
-      }, function(err) {
+      }, function (err) {
         console.error(err)
       });
   };
 
-  beerFactory.updateBeer = function(beer) {
+  beerFactory.updateBeer = function (beer) {
     return $http.put('/beers/' + beer._id, beer)
-      .then(function(response) {
+      .then(function (response) {
         return response.data
       });
   };
 
 
-  beerFactory.addBeer = function(newBeer) {
+  beerFactory.addBeer = function (newBeer) {
     return $http.post('/beers', newBeer)
-      .then(function(response) {
+      .then(function (response) {
         return response.data
-      }, function(err) {
+      }, function (err) {
         console.error(err)
       });
   };
 
-  beerFactory.removeBeer = function(beer) {
+  beerFactory.removeBeer = function (beer) {
     return $http.delete('/beers/' + beer._id)
-      .then(function(response) {
+      .then(function (response) {
         return response.data;
-      }, function(err) {
-        console.error(err)
       });
   };
 
-  beerFactory.addReview = function(id, newReview) {
+  beerFactory.addReview = function (id, newReview) {
     return $http.post('/beers/' + id + '/reviews', newReview)
-      .then(function(response) {
+      .then(function (response) {
         return response.data
-      }, function(err) {
+      }, function (err) {
         console.error(err)
       });
   };
 
-  beerFactory.deleteReview = function(beerId, reviewId) {
+  beerFactory.deleteReview = function (beerId, reviewId) {
     return $http.delete('/beers/' + beerId + '/reviews/' + reviewId)
-      .then(function(response) {
+      .then(function (response) {
         return response.data
-      }, function(err) {
-        console.error(err)
+      })
+      .catch(function (err) {
+        alert(err.data.message)
       });
   };
 
