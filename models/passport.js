@@ -38,7 +38,10 @@ passport.use(new FacebookStrategy({
           }, 'Elirans$uperC0mpl3xKey1337', {
             expiresIn: "7d"
           });
-          return done(null, newUser);
+          return done(null, {
+            token: token,
+            name: newUser.name
+          });
         }
       });
     });
